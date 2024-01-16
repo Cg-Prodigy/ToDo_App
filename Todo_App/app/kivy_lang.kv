@@ -1,0 +1,109 @@
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import Window kivy.core.window.Window
+<EntryPoint>:  
+
+<SignUpScreen>:
+    usr_name:usr_name
+    MDRelativeLayout:
+        MDCard:
+            size_hint:None,None
+            size:Window.width-dp(20),Window.height*.5
+            orientation:"vertical"
+            md_bg_color:get_color_from_hex("#002D62")
+            pos_hint:{"center_x":.5,"center_y":.5}
+            MDRelativeLayout:
+                size_hint_y:.5
+                Image:
+                    source:"Images/logo.png"
+                    size:100,100
+            MDBoxLayout:
+                size_hint_y:.5
+                padding:dp(10)
+                orientation: 'vertical'
+                spacing:5
+                MDRelativeLayout:
+                    MDLabel:
+                        text:"TO START CREATE A USERNAME FOR YOURSELF."
+                        adaptive_height:True
+                        halign:"center"
+                        theme_text_color:"Custom"
+                        text_color:get_color_from_hex("#FFD166")
+                        pos_hint:{"top":1}
+                MDTextField:
+                    mode:"rectangle"
+                    hint_text:"User Name"
+                    line_color_normal:get_color_from_hex("#F0F8FF")
+                    id:usr_name
+                MDRelativeLayout:
+                    MDFillRoundFlatButton:
+                        text:"Continue"
+                        pos_hint:{"right":1}
+                        theme_text_color:"Custom"
+                        text_color:get_color_from_hex("#F0F8FF")
+                        md_bg_color:get_color_from_hex("#002244")
+                        on_release:
+                            root.save_user_name()
+<HomeScreen>:
+    usr_name:usr_name
+    group_number:group_number
+    task_number:task_number
+    MDGridLayout:
+        cols:1
+        rows:2
+        padding:20,20
+        MDCard:
+            size_hint_y:.4
+            border_radius:50
+            md_bg_color:get_color_from_hex("#002244")
+            padding:0,5
+            MDBoxLayout:
+                size_hint_x:.7
+                orientation: 'vertical'
+                padding:20,0
+                spacing:4
+                MDRelativeLayout:
+                    size_hint_y:.3
+                    Lb:
+                        id:usr_name
+                        text_color:get_color_from_hex("#F0F8FF")
+                MDCard:
+                    size_hint_y:.7
+                    elevation:3
+                    MDRelativeLayout:
+                        Lb:
+                            text:"Group"
+                            halign:"center"
+                            pos_hint:{"center_y":.6}
+                        Lb:
+                            id:group_number
+                            text:"0"
+                            halign:"center"
+                            pos_hint:{"center_y":.4}
+                    MDRelativeLayout:
+                        Lb:
+                            text:"Tasks"
+                            halign:"center"
+                            pos_hint:{"center_y":.6}
+                        Lb:
+                            id:task_number
+                            text:"0"
+                            halign:"center"
+                            pos_hint:{"center_y":.4}
+            MDBoxLayout:
+                size_hint_x:.3
+                orientation: 'vertical'
+                MDRelativeLayout:
+                    Image:
+                        source:"Images/stats.png"
+                        pos_hint:{"center_x":.5,"center_y":.5}
+        MDBoxLayout:
+    MDAnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'bottom'
+        MDIconButton:
+            icon:"plus"
+
+
+<Lb@MDLabel>:
+    adaptive_height:True
+    theme_text_color:"Custom"
