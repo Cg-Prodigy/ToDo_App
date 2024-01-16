@@ -45,32 +45,40 @@
                             root.save_user_name()
 <HomeScreen>:
     usr_name:usr_name
+    user_time:user_time
     group_number:group_number
     task_number:task_number
     MDGridLayout:
         cols:1
         rows:2
-        padding:20,20
+        padding:5,5
+        spacing:2
         MDCard:
-            size_hint_y:.4
+            size_hint_y:.3
             border_radius:50
-            md_bg_color:get_color_from_hex("#002244")
+            md_bg_color:get_color_from_hex("#002D62")
             padding:0,5
             MDBoxLayout:
                 size_hint_x:.7
                 orientation: 'vertical'
-                padding:20,0
+                padding:5,0
                 spacing:4
                 MDRelativeLayout:
-                    size_hint_y:.3
+                    size_hint_y:.4
                     Lb:
                         id:usr_name
+                        text_color:get_color_from_hex("#F0F8FF")
+                        pos_hint:{"top":1}
+                    Lb:
+                        id:user_time
                         text_color:get_color_from_hex("#F0F8FF")
                 MDCard:
                     size_hint_y:.7
                     elevation:3
+                    md_bg_color:get_color_from_hex("#7CB9E8")
                     MDRelativeLayout:
                         Lb:
+
                             text:"Group"
                             halign:"center"
                             pos_hint:{"center_y":.6}
@@ -79,6 +87,7 @@
                             text:"0"
                             halign:"center"
                             pos_hint:{"center_y":.4}
+                        
                     MDRelativeLayout:
                         Lb:
                             text:"Tasks"
@@ -96,14 +105,77 @@
                     Image:
                         source:"Images/stats.png"
                         pos_hint:{"center_x":.5,"center_y":.5}
-        MDBoxLayout:
-    MDAnchorLayout:
-        anchor_x: 'right'
-        anchor_y: 'bottom'
-        MDIconButton:
-            icon:"plus"
+        MDGridLayout:
+            size_hint_y:.7
+            cols:1
+            rows:2
+            MDBoxLayout:
+                size_hint_y:.4
+                MDCard:
+                    md_bg_color:get_color_from_hex("#002D62")
+                    size_hint:None,None
+                    height:dp(150)
+                    width:dp(100)
+                    MDRelativeLayout:
+                        MDIconButton:
+                            icon:"plus"
+                            theme_icon_color:"Custom"
+                            icon_color:get_color_from_hex("fd4900")
+                            icon_size:dp(50)
+                            pos_hint:{"center_x":.5,"center_y":.5}
+                            on_release:
+                                root.manager.current="create_task"
+                                root.manager.transition.direction="left"
+            MDList:
+                size_hint_y:.6
+<CreateTask>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            id:tool_bar
+            left_action_items:[["arrow-left",lambda x:root.change_screen()]]
+            md_bg_color:get_color_from_hex("#FFFFFF")
+            specific_text_color:get_color_from_hex("#002244")
+            elevation:0
+        MDScrollView:
+            size_hint_y:None
+            height:Window.height-tool_bar.height
+            do_scroll_x:False
+            MDGridLayout:
+                height:Window.height-(tool_bar.height+dp(20))
+                spacing:dp(5)
+                cols:1
+                padding:dp(3),dp(5)
+                size_hint_y:None
+                Card:
+                    height:dp(120)
+                    spacing:dp(5)
+                    Lb:
+                        text:"Task Group"
+                        pos_hint:{"top":1}
+                    MDTextField:
+                        mode:"round"
+                        id:group_name
+                        fill_color_normal:get_color_from_hex("#002D62")
+                        helper_text:"No special characters."
+                        helper_text_color_focus:get_color_from_hex("#F0F8FF")
+                    MDFillRoundFlatIconButton:
+                        icon:"folder-plus"
+                        text:"Create group"
+                        pos_hint:{"right":1}
+                        on_release:root.create_group_task(group_name)
+
+
 
 
 <Lb@MDLabel>:
     adaptive_height:True
     theme_text_color:"Custom"
+    text_color:get_color_from_hex("#F0F8FF")
+<Card@MDCard>:
+    spacing:dp(5)
+    orientation: 'vertical'
+    size_hint_y:None
+    border_radius:dp(5)
+    md_bg_color:get_color_from_hex("#002D62")
+    padding:dp(5),dp(7)
