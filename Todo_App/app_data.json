@@ -1,1 +1,26 @@
-{"User Data": {"1": {"User Name": "Brian Ego"}}}
+{
+    "User Data": {
+        "1": {
+            "User Name": "Brian"
+        }
+    },
+    "User Tasks": {
+        "1": {
+            "Group Name": "Multiprocessing",
+            "Task": [
+                "One",
+                "Two",
+                "Three",
+                "Four"
+            ]
+        },
+        "2": {
+            "Group Name": "Django",
+            "Task": [
+                "Channels",
+                "Drf",
+                "Panywhere"
+            ]
+        }
+    }
+}
