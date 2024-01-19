@@ -97,14 +97,14 @@
         size_hint_y:.7
         cols:1
         rows:2
-        margin:dp(1),dp(5)
+        spacing:dp(7)
         MDBoxLayout:
             size_hint_y:.4
             MDCard:
                 md_bg_color:get_color_from_hex("#002050")
                 size_hint:None,None
                 width:dp(100)
-                height:dp(120)
+                height:dp(100)
                 MDRelativeLayout:
                     MDIconButton:
                         icon:"plus"
@@ -116,6 +116,9 @@
                             root.parent.parent.manager.current="create_task"
                             root.parent.parent.manager.transition.direction="left"
         MDScrollView:
+            MDList:
+                id:swiper
+                spacing:dp(5)
 
 
 <CreateTask>:
@@ -208,4 +211,3 @@
                             size_hint_y:None
                             spacing:dp(4)
                             height:task_grid.height+dp(3)
-

@@ -9,8 +9,10 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.snackbar import Snackbar
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.anchorlayout import MDAnchorLayout
+from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.card import MDCard
 from kivymd.uix.button import MDFillRoundFlatIconButton
+from kivymd.uix.list import TwoLineIconListItem,IconLeftWidget
 
 
 
@@ -51,9 +53,11 @@ class HomeScreen(MDScreen):
         self.user_name=self.home_ui.ids["user_name"]
         self.group_no=self.home_ui.ids["group_no"]
         self.task_no=self.home_ui.ids["task_no"]
+        self.swiper=self.home_ui.ids["swiper"]
         self.grid_layout.add_widget(self.home_ui)
         self.add_widget(self.grid_layout)
         self.update_ui_data()
+        self.create_group_containers()
 
     def update_ui_data(self):
         user_name=db.table("User Data").all()[0]["User Name"]
@@ -63,6 +67,29 @@ class HomeScreen(MDScreen):
         self.group_no.text=str(group_no)
         self.task_no.text=str(task_no)
         self.user_name.text=str(user_name).title()
+    def create_group_containers(self):
+        task_data=db.table("User Tasks").all()
+        for group in task_data:
+            group_name=group["Group Name"]
+            task_count=len(group["Task"])
+            list_item=TwoLineIconListItem(
+                text=f"Group: {group_name}",
+                secondary_text=f"Task count: {task_count}",
+                bg_color=get_color_from_hex("#002050"),
+                radius=[7,7,7,7],
+                theme_text_color="Custom",
+                secondary_theme_text_color="Custom",
+                text_color=get_color_from_hex("#F0F8FF"),
+                secondary_text_color=get_color_from_hex("#FF4500"),
+            )
+            list_icon=IconLeftWidget(
+                        icon="table-plus",
+                        theme_icon_color="Custom",
+                        icon_color=get_color_from_hex("#FF4500")
+                                     )
+            list_item.add_widget(list_icon)
+            self.swiper.add_widget(list_item)
+
 class CreateTask(MDScreen):
     group_btns=ObjectProperty()
     task_btns=ObjectProperty()
@@ -187,4 +214,3 @@ class TitleButton(MDFillRoundFlatIconButton):
         if not self.title_list:
             create_widget=self.group_btns.children[0]
             self.group_btns.remove_widget(create_widget)
-
