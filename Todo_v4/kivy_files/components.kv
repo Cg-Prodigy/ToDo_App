@@ -1,0 +1,138 @@
+#:import bg_colors app_files.templates.bg_colors
+#:import text_colors app_files.templates.text_colors
+
+<Lb@MDLabel>:
+    adaptive_height:True
+    markup:True
+    theme_text_color:"Custom"
+
+<Card@MDCard>:
+    md_bg_color:bg_colors["bg_one"]
+
+<CustomListItem>:
+    orientation:"vertical"
+    padding:dp(5),dp(3)
+    MDRelativeLayout:
+        id:task_progress_cont
+        size_hint_y:None
+        height:dp(20)
+        Lb:
+            id:task_progress
+            font_size:sp(13)
+            text_color:text_colors["txt_two"]
+    MDGridLayout:
+        cols:2
+        rows:1
+        id:task_info
+        size_hint_y:.4
+        MDBoxLayout:
+            size_hint_x:.5
+            orientation: 'vertical'
+            Lb:
+                id:task_category
+                font_size:sp(14)
+                text_color:bg_colors["bg_one"]
+            Lb:
+                id:task_count
+                font_size:sp(12)
+                text_color:bg_colors["bg_one"]
+        MDRelativeLayout:
+            spacing:dp(5)
+            id:chip_container
+            size_hint_x:.5
+            MDRoundFlatButton:
+                pos_hint:{"left":1}
+                id:completed
+                md_bg_color:bg_colors["bg_one"]
+                text_color:text_colors["txt_three"]
+                font_size:sp(10)
+                line_color:bg_colors["bg_five"]
+            MDRoundFlatButton:
+                pos_hint:{"right":1}
+                id:left
+                md_bg_color:text_colors["txt_two"]
+                text_color:bg_colors["bg_two"]
+                line_color:bg_colors["bg_five"]
+                font_size:sp(10)
+    MDRelativeLayout:
+        id:task_details
+        size_hint_y:.4
+        MDIconButton:
+            id:change_screen_btn
+            icon:"dots-horizontal"
+            pos_hint:{"right":1}
+            icon_size:sp(15)
+            md_bg_color:bg_colors["bg_two"]
+
+<TextCard@Card>:
+    size_hint_y:None
+    orientation: 'vertical'
+    padding:dp(5),dp(10)
+    md_bg_color:bg_colors["bg_one"]
+<CustomTextField>:
+    text_color_focus:text_colors["txt_two"]
+    text_color_normal:bg_colors["bg_two"]
+    hint_text_color:text_colors["txt_two"]
+    line_color_normal:bg_colors["bg_three"]
+    line_color_focus:text_colors["txt_two"]
+    hint_text_color_normal:text_colors["txt_three"]
+    hint_text_color_focus:text_colors["txt_two"]
+    error_color:text_colors["txt_four"]
+    font_size:sp(12)
+
+<CustomBtn>:
+    theme_icon_color:"Custom"
+    theme_text_color:"Custom"
+    text_color:bg_colors["bg_one"]
+    line_color:bg_colors["bg_two"]
+    icon_color:bg_colors["bg_one"]
+    md_bg_color:bg_colors["bg_five"]
+<IconBtn@MDIconButton>:
+    theme_icon_color:"Custom"
+    theme_text_color:"Custom"
+    text_color:bg_colors["bg_one"]
+    line_color:bg_colors["bg_two"]
+    icon_color:bg_colors["bg_one"]
+    md_bg_color:bg_colors["bg_five"]
+
+<TaskCard>:
+    md_bg_color:bg_colors["bg_five"]
+    size_hint_y:None
+    height:dp(120)
+    orientation: 'vertical'
+    padding:dp(5)
+    MDGridLayout:
+        size_hint_y:.7
+        rows:1
+        cols:2
+        MDRelativeLayout:
+            size_hint_x:.8
+            orientation: 'vertical'
+            spacing:dp(7)
+            Lb:
+                id:task_title
+                text_color:text_colors["txt_two"]
+                font_size:sp(20)
+                pos_hint:{"top":.9}
+            Lb:
+                text_color:bg_colors["bg_one"]
+                font_size:sp(14)
+                id:description
+        MDRelativeLayout:
+            size_hint_x:.2
+            MDIconButton:
+                icon:"checkbox-multiple-marked-circle-outline"
+                pos_hint:{"right":.98,"top":.9}
+                id:completed
+    MDRelativeLayout:
+        size_hint_y:.3
+        Lb:
+            id:duration
+            text_color:text_colors["txt_one"]
+            font_size:sp(14)
+        MDIconButton:
+            pos_hint:{"right":1}
+            icon:"delete-outline"
+            id:delete
+            # on_release:root.delete_task()
+        

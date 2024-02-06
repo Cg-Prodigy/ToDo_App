@@ -1,0 +1,290 @@
+#:import Window kivy.core.window.Window
+#:import bg_colors app_files.templates.bg_colors
+#:import text_colors app_files.templates.text_colors
+
+<HomeScreen>:
+    md_bg_color:bg_colors["bg_two"]
+    spacing:dp(10)
+    MDGridLayout:
+        cols:1
+        padding:dp(7),dp(3)
+        spacing:dp(5)
+        MDRelativeLayout:
+            size_hint_y:None
+            height:dp(35)
+            Lb:
+                id:user_name
+                text_color:text_colors["txt_two"]
+                font_size:sp(20)
+      
+        Card:
+            size_hint_y:None
+            height:dp(200)
+            padding:dp(5),dp(5)
+            MDBoxLayout:
+                orientation: 'vertical'
+                size_hint_x:.7
+                MDRelativeLayout:
+                    size_hint_y:.3
+                    Lb:
+                        text:"[b]Your Progress"
+                        text_color:text_colors["txt_three"]
+                        font_size:sp(25)
+                MDRelativeLayout:
+                    size_hint_y:.4
+                    Lb:
+                        id:progress_text
+                        font_size:sp(12)
+                        text_color:text_colors["txt_three"]
+                MDRelativeLayout:
+                    size_hint:None,None
+                    height:dp(30)
+                    width:Window.width*.4
+
+                    id:progress
+            MDRelativeLayout:
+                size_hint_x:.3
+                Image:
+                    source:"assets/imgs/rocket.png"
+    MDScrollView:
+        size_hint_y:None
+        height:Window.height-dp(250)
+        id:task_category_cont
+        MDGridLayout:
+            cols:1
+            size_hint_y:None
+            height:task_category_cont.height+dp(300)
+            spacing:dp(7)
+            padding:dp(7),dp(3)
+            id:task_category
+    MDRelativeLayout:
+        padding:dp(10)
+        MDIconButton:
+            icon:"plus-thick"
+            icon_size:sp(25)
+            md_bg_color:bg_colors["bg_one"]
+            theme_icon_color:"Custom"
+            icon_color:text_colors["txt_two"]
+            pos_hint:{"center_x":.5,"top":.08}
+            on_release:root.manager.change_screen("homescreen","createtask")
+
+<CreateTask>:
+    md_bg_color:bg_colors["bg_two"]
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            padding:dp(10),0
+            size_hint_y:None
+            height:dp(43)
+            id:top_bar
+            md_bg_color:bg_colors["bg_two"]
+            IconBtn:
+                on_release: root.manager.change_screen("createtask","homescreen")
+                icon:"chevron-left"
+                icon_size:sp(15)
+                pos_hint:{"bottom":1}
+        MDScrollView:
+            size_hint_y:None
+            height:Window.height-top_bar.height
+            MDList:
+                padding:dp(5),dp(10)
+                spacing:dp(7)
+                size_hint_y:None
+                height:Window.height+dp(250)
+                TextCard:
+                    height:dp(150)
+                    Lb:
+                        text:"Task Details"
+                        text_color:bg_colors["bg_two"]
+                        font_size:sp(12)
+                    CustomTextField:
+                        on_focus:
+                            root.validate_input(self)
+                            self.field_logic("Title")
+                        id:task_title
+                    CustomTextField:
+                        on_focus:
+                            root.validate_input(self)
+                            self.field_logic("Description")
+                        id:task_description
+                TextCard:
+                    height:dp(325)
+                    spacing:dp(20)
+                    MDRelativeLayout:
+                        size_hint_y:None
+                        height:dp(20)
+                        Lb:
+                            text:"Time Details"
+                            text_color:bg_colors["bg_two"]
+                            font_size:sp(12)
+                            pos_hint:{"top":.9}
+                    MDBoxLayout:
+                        size_hint_y:None
+                        height:dp(50)
+                        MDBoxLayout:
+                            size_hint_x:.7
+                            CustomBtn:
+                                icon:"plus"
+                                text:"Start Date"
+                                pos_hint:{"center_y":.5}
+                                id:start_date_btn
+                                on_release:root.open_datetime_dialog()
+                        MDBoxLayout:
+                            size_hint_x:.3
+                            MDRelativeLayout:
+                                Lb:
+                                    text:"Today"
+                                    pos_hint:{"center_y":.5}
+                                    font_size:sp(12)
+                                    text_color:bg_colors["bg_two"]
+                                MDCheckbox:
+                                    id:today_checkbox
+                                    checkbox_icon_normal:"checkbox-marked-circle-outline"
+                                    checkbox_icon_down:"checkbox-marked-circle-outline"
+                                    size_hint:None,None
+                                    size:dp(30),dp(30)
+                                    pos_hint:{"center_y":.5,"right":.98}
+                                    on_active:root.set_date_today(*args)
+                    Lb:
+                        id:start_date
+                        text:"Start Date:"
+                        font_size:sp(12)
+                        text_color:bg_colors["bg_two"]
+                    CustomBtn:
+                        icon:"plus"
+                        text:"Start Time"
+                        id:start_time_btn
+                        on_release:root.open_time_dialog()
+                    Lb:
+                        font_size:sp(12)
+                        text:"Start Time:"
+                        text_color:bg_colors["bg_two"]
+                        id:start_time
+                    CustomBtn:
+                        icon:"plus"
+                        text:"End Time"
+                        id:end_time_btn
+                        on_release:root.open_end_time() 
+                    Lb:
+                        text:"End Time:"
+                        text_color:bg_colors["bg_two"]
+                        font_size:sp(12)
+                        id:end_time_label
+                TextCard:
+                    spacing:dp(10)
+                    height:dp(100)
+                    MDRelativeLayout:
+                        Lb:
+                            text:"Task Category"
+                            text_color:bg_colors["bg_two"]
+                            font_size:sp(12)
+                            adaptive_height:True
+                            pos_hint:{"top":.95}
+                    CustomBtn:
+                        icon:"chevron-right"
+                        text:"Personal"
+                        id:task_category
+                        on_release:root.open_category_dropdown()
+    CustomBtn:
+        text:"Save Task"
+        icon:"timer-plus-outline"
+        pos_hint:{"right":.97,"top":.075}
+        on_release:root.validate_data()
+
+
+<SignUpScreen>:
+    md_bg_color:bg_colors["bg_one"]
+    Image:
+        source:"assets/imgs/signup.png"
+    
+    MDAnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        Card:
+            orientation:"vertical"
+            padding:dp(5),dp(10)
+            md_bg_color:1,1,1,0
+            size_hint_y:None
+            height:Window.height*.5
+            size_hint_x:.9
+            MDRelativeLayout:
+                size_hint_y:.3
+                Lb:
+                    text:"[b]TODO App"
+                    text_color:text_colors["txt_two"]
+                    font_size:sp(40)
+                    halign:"center"
+            MDRelativeLayout:
+                size_hint_y:.2
+                CustomTextField:
+                    multiline:False
+                    pos_hint:{"center_y":.5}
+                    helper_text:"Create a user name that will be used within the App."
+                    helper_text_color_normal:bg_colors["bg_two"]
+                    helper_text_mode:"persistent"
+                    font_size:sp(17)
+                    id:user_name
+                    on_focus:
+                        root.validate_data()
+            MDRelativeLayout:
+                size_hint_y:.4
+                CustomBtn:
+                    text:"Create User"
+                    icon:"plus-thick"
+                    pos_hint:{"right":1}
+                    disabled:True
+                    id:save_btn
+                    on_release:root.save_user()
+
+<TaskDetails>:
+    MDBoxLayout:
+        md_bg_color:bg_colors["bg_two"]
+        orientation:"vertical"
+        padding:dp(10),dp(5)
+        MDRelativeLayout:
+            size_hint_y:None
+            height:dp(40)
+            IconBtn:
+                icon:"chevron-left"
+                on_release:root.manager.change_screen("taskscreen","homescreen")
+                icon_size:dp(15)
+        MDBoxLayout:
+            orientation: 'vertical'
+            CustomBtn:
+                icon:"calendar-month"
+                id:calendar_month
+                on_release:root.open_dropdown()
+            MDRelativeLayout:
+                size_hint_y:None
+                height:dp(40)
+                MDScrollView:
+                    size_hint_x:None
+                    width:Window.width*.5
+                    do_scroll_y:False
+                    pos_hint:{"center_x":.5}
+                    MDGridLayout:
+                        size_hint_x:None
+                        rows:1
+                        id:day_btns
+                        spacing:dp(10)
+            MDScrollView:
+                size_hint_y:None
+                do_scroll_x:False
+                height:Window.height-dp(130)
+                MDGridLayout:
+                    cols:1
+                    size_hint_y:None
+                    height:Window.height-dp(200)
+                    id:task_info
+                    spacing:dp(10)
+                    padding:dp(5),dp(10)
+
+
+
+
+
+
+
+
+
+
